@@ -1,0 +1,68 @@
+include <stdio.h>
+#include "lc4_memory.h"
+#include "lc4_loader.h"
+#include "lc4_disassembler.h"
+
+/* program to mimic pennsim loader and disassemble object files */
+
+int main (int argc, char** argv) {
+
+	/**
+	 * main() holds the linked list &
+	 * only calls functions in other files 
+	 */
+
+	/* step 1: create head pointer to linked list: memory 	*/
+	row_of_memory* memory = NULL ;
+
+	
+	/* step 2: determine filename, then open it		*/
+	/*   TODO: extract filename from argv, pass it to open_file() */
+
+		char filename[30];
+
+    printf("Enter File name: ");
+    Scanf("%s", &filename);
+
+   	FILE* newfile =  open_file(&filename);
+
+
+	/* step 3: call function: parse_file() in lc4_loader.c 	*/
+	/*   TODO: call function & check for errors		*/
+
+   	int check_open = parse_file (newfile, * memory);
+
+   	//if fail the check
+   	if (check_open = 0){
+   		printf("Error1: can't open the file, please enter a correct file name.  \n");
+   	}
+
+
+	/* step 4: call function: reverse_assemble() in lc4_disassembler.c */
+	/*   TODO: call function & check for errors		*/
+
+		int check_assemble = 0;
+
+   	if (check_open = 1){
+   		int check_assemble = reverse_assemble(memory);  		
+   	}
+
+   	if (check_assemble = 0){
+   		printf("Error2: can't reverse aseemble into the memory \n");
+   		melloc(memory);
+   	}
+
+
+	/* step 5: call function: print_list() in lc4_memory.c 	*/
+	/*   TODO: call function 				*/
+   	print_list (memory); 
+
+
+	/* step 6: call function: delete_list() in lc4_memory.c */
+	/*   TODO: call function & check for errors		*/
+   	delete_list(memory);
+
+
+	/* only return 0 if everything works properly */
+	return 0 ;
+}
